@@ -35,9 +35,9 @@
                                 <tbody>
                                     <tr role="row" class="odd" v-for="user in users.data" :key="user.id">
                                         <td>{{user.id}}</td>
-                                        <td>{{user.name | capitalize}}<br/><span>Staff ID</span></td>
+                                        <td>{{user.name | capitalize}}<br/><span>{{user.staff_id | capitalize}}</span></td>
                                         <td>{{user.mobile}}</td>
-                                        <td>Role</td>
+                                        <td>{{user.role}}</td>
                                         <td>{{user.created_at | dateformat}}</td>
                                         <td>Online Status</td>
                                         <td>
@@ -118,9 +118,7 @@
         data(){
             return {
                 users:{},
-                parents:[],
                 isedit:false,
-                isSuper:false,
                 search:'',
                 form: new Form({
                     id:'',
@@ -136,24 +134,20 @@
         },
         methods:{
 
-            loadUsers(){
+            loadTeamMembers(){
                 //if(this.$gate.isClientAdmin){}
-
                 this.$Progress.start()
-                axios.get('api/user').then(({data})=>(this.users = data));
+                axios.get('api/teammembers').then(({data})=>(this.users = data));
                 this.$Progress.finish()
             },
-
-
             editModal(user){
                 this.form.reset();
                 this.isedit = true;
                 $('#addNew').modal('show');
                 this.form.fill(user);
             },
-
             getResults(page = 1) {
-			    axios.get('api/user?page=' + page)
+			    axios.get('api/teammembers?page=' + page)
 				.then(response => {
 					this.users = response.data;
 				});
@@ -164,21 +158,10 @@
 					this.users = data.data;
 				});
             },
-            parentUser(event){
-                let val = event.target.value;
-                if(val == 4 || val == 6){
-                    this.isSuper = true;
-                    axios.get('api/parentUserList?pid='+val).then(({data})=>(
-                        this.parents = data
-                    ));
-                } else {
-                    this.isSuper = false;
-                }
-            }
         },
         created() {
-            this.loadUsers();
-            Fire.$on('AfterCreate',()=>{this.loadUsers()});
+            this.loadTeamMembers();
+            Fire.$on('AfterCreate',()=>{this.loadTeamMembers()});
         }
     }
 </script>

@@ -46,19 +46,10 @@
               <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-
-
-               @can('isCustomer')
-               @endcan
-
-
                 <li class="nav-item">
-                <router-link to="/dashboard" class="nav-link" active-class="active" >
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                    My Account
-                    </p>
-                </router-link>
+                    <router-link to="/dashboard" class="nav-link" active-class="active" >
+                        My Account
+                    </router-link>
                 </li>
                 @can('isCustomer')
                     <li class="nav-item">
@@ -164,7 +155,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" active-class="active" >
+                        <router-link to="/commission" class="nav-link" active-class="active" >
                             <p> Commission & Rewards</p>
                         </a>
                     </li>
@@ -185,9 +176,9 @@
                         </router-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" active-class="active" >
-                            <p>Team Member</p>
-                        </a>
+                        <router-link to="/team-member" class="nav-link" active-class="active" >
+                        <p>Team Member</p>
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" active-class="active" >
@@ -198,33 +189,13 @@
 
                 @can('isSaleExecOrSaleMgr')
                     <li class="nav-item">
-                        <a href="#" class="nav-link" active-class="active" >
-                            <p>My Sales Leads</p>
-                        </a>
+                        <router-link to="/customer_leads" class="nav-link" active-class="active" >
+                        <p>Customer</p>
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link" active-class="active" >
-                            <p>My Sales Orders</p>
-                        </a>
-                    </li>
-                    @can('isSalesMgr')
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" >
-                                <p>Assign Leads</p>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('isSalesExec')
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" >
-                                <p>Request Leads</p>
-                            </a>
-                        </li>
-                    @endcan
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link" active-class="active" >
-                            <p>My Customer</p>
+                            <p>Sales Orders</p>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -232,32 +203,35 @@
                             <p>Commission & Rewards</p>
                         </a>
                     </li>
-                    @can('isSalesMgr')
-                        <hr/>
+                    <hr/>
                         <li class="nav-item">
                             <a href="#" class="nav-link" active-class="active" >
                                 <p>My Team</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" >
-                                <p>Team Sales Lead</p>
-                            </a>
+                            <router-link to="/team-member" class="nav-link" active-class="active" >
+                            <p>Members</p>
+                            </router-link>
+                        </li>
+                    @can('isSalesMgr')
+
+                        <li class="nav-item">
+                            <router-link to="/assignleads" class="nav-link" active-class="active" >
+                            <p>Assign Leads</p>
+                            </router-link>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="/team_customer" class="nav-link" active-class="active" >
+                                <p>Team Customer</p>
+                            </router-link>
+
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link" active-class="active" >
                                 <p>Team Sales Order</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" >
-                                <p>Team Customer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <router-link to="/team-member" class="nav-link" active-class="active" >
-                            <p>Team Member</p>
-                            </router-link>
                         </li>
                     @endcan
                 @endcan

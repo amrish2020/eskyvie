@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -154,5 +155,27 @@ class UserController extends Controller
             $users = User::where('role','=', $role_id)->get();
         }
         return $users;
+    }
+
+    public function getStafflist(){
+        $userid = Auth::user()->id;
+        $staff = User::where('users.parent_id','=', $userid)
+            ->select('users.name', 'users.id')
+            ->get();
+        return $staff;
+    }
+
+    public function getTeamMemberList(){
+        $userid = Auth::user()->id;
+        if(Auth::user()->role == 4){
+            $parentid = User::where('id','=', $userid)->pluck('id');
+        } else {
+            $parentid = $userid;
+        }
+        $staff = User::where('users.parent_id','=', $parentid)
+            ->select('users.name','users.staff_id','users.mobile','users.role','users.created_at', 'users.id')
+            ->paginate();
+
+        return $staff;
     }
 }

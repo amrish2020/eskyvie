@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Leads;
+use Illuminate\Support\Facades\Auth;
 
 class LeadsController extends Controller
 {
@@ -109,6 +110,20 @@ class LeadsController extends Controller
             $leads = Leads::latest()->paginate(5);
         }
         return $leads;
+    }
+
+    public function getMyLeads(){
+        $usr = Auth::user()->id;
+        return Leads::latest()->where('assign_to','=',$usr)->paginate(5);
+    }
+
+    public function getTeamCustomerlist(){
+        $userid = Auth::user()->id;
+        $leads = Leads::where('users.parent_id','=', $userid)
+            ->join('users', 'users.id', '=', 'leads.assign_to')
+            ->select('leads.id','leads.name','leads.assign_date', 'leads.status', 'leads.created_at','leads.updated_at','users.staff_id')
+            ->paginate(5);
+        return json_encode($leads);
     }
 
 }
