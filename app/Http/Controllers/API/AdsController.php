@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Ads;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Leads;
 
 class AdsController extends Controller
 {
@@ -25,7 +28,41 @@ class AdsController extends Controller
      */
     public function index()
     {
-        return Ads::latest()->paginate(5);
+        $userid = Auth::user()->id;
+
+        if(Auth::user()->role == 6){
+            $parentid = User::where('id','=', $userid)->pluck('parent_id');
+        } else {
+            $parentid = $userid;
+        }
+
+        $leads = Ads::where('users.parent_id','=', $parentid)
+            ->join('users', 'users.id', '=', 'ads.created_by')
+            ->select('ads.id','ads.ads_id','ads.media','ads.budeget', 'ads.ads_type','ads.start_at','ads.end_at')
+            ->paginate(5);
+
+        /*$newary = array();
+        foreach($leads as $key=>$val){
+            $totleads = Leads::where('ads_id','=',$val['id'])->count();
+            $date = date('Y-m-d');
+            if($val['end_at'] > $date)
+                $sts = 'live';
+            else
+                $sts = 'ended';
+
+            $newary['id'] = $val['id'];
+            $newary['ads_id'] = $val['ads_id'];
+            $newary['media'] = $val['media'];
+            $newary['budeget'] = number_format($val['budeget']);
+            $newary['ads_type'] = $val['ads_type'];
+            $newary['start_at'] = $val['start_at'];
+            $newary['end_at'] = $val['end_at'];
+            $newary['leads'] = $totleads;
+            $newary['cpl'] = number_format($val['budeget']/$totleads,2) ;
+            $newary['status'] = $sts;
+        }*/
+
+        return json_encode($leads);
     }
 
     /**
@@ -55,7 +92,8 @@ class AdsController extends Controller
             'budeget'=>$request['budeget'],
             'start_at'=>date('Y-m-d', strtotime($request['start_at'])),
             'end_at'=>date('Y-m-d', strtotime($request['end_at'])),
-            'ads_id'=>$adid
+            'ads_id'=>$adid,
+            'created_by'=>Auth::user()->id,
         ]);
     }
 

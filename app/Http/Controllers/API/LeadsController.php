@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Leads;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class LeadsController extends Controller
@@ -51,7 +52,9 @@ class LeadsController extends Controller
             'email'=>$request['email'],
             'mobile'=>$request['mobile'],
             'ads_id'=>$request['ads_id'],
+            'created_by'=>Auth::user()->id,
          ]);
+
     }
 
     /**
@@ -126,4 +129,19 @@ class LeadsController extends Controller
         return json_encode($leads);
     }
 
+    public function getTeamLeadsMarlist(){
+        $userid = Auth::user()->id;
+
+        if(Auth::user()->role == 6){
+            $parentid = User::where('id','=', $userid)->pluck('parent_id');
+        } else {
+            $parentid = $userid;
+        }
+
+        $leads = Leads::where('users.parent_id','=', $parentid)
+            ->join('users', 'users.id', '=', 'leads.created_by')
+            ->select('leads.id','leads.name','leads.assign_date', 'leads.status', 'leads.created_at','leads.updated_at')
+            ->paginate(5);
+        return json_encode($leads);
+    }
 }

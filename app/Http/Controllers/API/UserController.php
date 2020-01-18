@@ -167,8 +167,8 @@ class UserController extends Controller
 
     public function getTeamMemberList(){
         $userid = Auth::user()->id;
-        if(Auth::user()->role == 4){
-            $parentid = User::where('id','=', $userid)->pluck('id');
+        if(Auth::user()->role == 4 || Auth::user()->role == 6){
+            $parentid = User::where('id','=', $userid)->pluck('parent_id');
         } else {
             $parentid = $userid;
         }

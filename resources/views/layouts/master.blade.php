@@ -166,9 +166,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link" active-class="active" >
+                        <router-link to="/team-marleads" class="nav-link" active-class="active" >
                             <p>Team Leads</p>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/team-ads" class="nav-link" active-class="active" >
@@ -180,6 +180,7 @@
                         <p>Team Member</p>
                         </router-link>
                     </li>
+
                     <li class="nav-item">
                         <a href="#" class="nav-link" active-class="active" >
                             <p>Leaderboard</p>

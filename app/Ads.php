@@ -12,7 +12,7 @@ class Ads extends Model
      * @var array
      */
     protected $fillable = [
-        'ads_id','media', 'url','ads_type','budeget','start_at','end_at'
+        'ads_id','media', 'url','ads_type','budeget','start_at','end_at','created_by'
     ];
 
 }

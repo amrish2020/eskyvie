@@ -58,7 +58,7 @@ let routes = [
         { path: '/assignleads', component: require('./components/Assignleads.vue').default },
         { path: '/team_customer', component: require('./components/TeamCustomer.vue').default },
         { path: '/customer_leads', component: require('./components/CustomerLeads.vue').default },
-
+        { path: '/team-marleads', component: require('./components/TeamLeads.vue').default },
         { path: '*', component: require('./components/NotFound.vue').default }, //should be in last for 404 page
     ]
 

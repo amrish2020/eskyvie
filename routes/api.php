@@ -27,6 +27,8 @@ Route::apiResources(['requestleads'=>'API\RequestleadsController']);
 Route::get('myleads','Api\LeadsController@getMyLeads');
 Route::post('reqmoreleads','Api\RequestleadsController@postRequestForLeads');
 Route::get('teamcustomer','Api\LeadsController@getTeamCustomerlist');
+Route::get('teamleadsmar','Api\LeadsController@getTeamLeadsMarlist');
+
 
 Route::get('teammembers','Api\UserController@getTeamMemberList');
 

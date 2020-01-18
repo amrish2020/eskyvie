@@ -12,7 +12,7 @@ class Leads extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email','mobile','ads_id'
+        'name', 'email','mobile','ads_id','created_by'
     ];
 
 
